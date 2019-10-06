@@ -1,4 +1,5 @@
 const express = require('express');
+const SessionController = require('./controllers/SessionController');
 
 const routes = express.Router();
 
@@ -13,7 +14,7 @@ routes.get('/users', (req, res) => {
     return res.json({ idade: req.query.idade });
 });
 
-//req.body = acesso ao corpo da requisicao (criacao, edicao) 
+// req.body = acesso ao corpo da requisicao (criacao, edicao)
 routes.post('/users', (req, res) => {
     return res.json(req.body);
 });
@@ -23,8 +24,6 @@ routes.put('/users/:id', (req, res) => {
     return res.json({ id: req.params.id });    
 });
 
-routes.post('/users', (req, res) => {
-    return res.json({ message: "Hello" });
-});
+routes.post('/sessions', SessionController.store);
 
 module.exports = routes;
