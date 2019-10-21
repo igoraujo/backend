@@ -7,13 +7,20 @@ module.exports = {
         // let user = await User.findOne({ email : email });
         let user = await User.findOne({ email });
 
-        if(!user) {
+        if(!user && !isEmpty(email)) {
             user = await User.create({ email });
+        }
+        else {
+            user = undefined
         }
         
         return res.json(user);
     }
 };
+
+function isEmpty(obj) {
+    return Object.keys(obj).length === 0;
+}
 
 //index, show, store, update, destroy
 //index -> lista de sessao
