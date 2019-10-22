@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const path = require('path');
 
 const routes = require('./routes');
 
@@ -14,6 +15,7 @@ mongoose.connect('mongodb+srv://omnistack:omnistack@omnistack-ghemz.mongodb.net/
 // app.use(cors({ origin: 'http//:localhost:3000'})); -- define que apenas este endereco possa acessar a api
 app.use(cors());
 app.use(express.json());
+app.use('/files', express.static(path.resolve(__dirname, '..', 'uploads')));
 app.use(routes  );
 
 app.listen(3333);
