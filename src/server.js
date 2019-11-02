@@ -13,16 +13,26 @@ const app = express();
 const server = http.Server(app);
 const io = socketio(server);
 
-io.on('connection', socket => {
-    console.log('Usuario conectado', socket.id);
-
-    socket.emit('hello', 'Ospra, bão?')//envia a mensagem
-
-})
-
 mongoose.connect('mongodb+srv://omnistack:omnistack@omnistack-ghemz.mongodb.net/OmniStackDB?retryWrites=true&w=majority', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+});
+
+const connectedUsers = {}; //o ideal seria utilizar um banco rapido para isto, por exemplo o REDIS (MONGO tambem funciona)
+
+io.on('connection', socket => {
+    const { user_id } = socket.handshake.query;
+
+    connectedUsers[user_id] = socket.id;
+    // { user_id : socket.id }
+    // { '5d9a4a5ff56da82c3ed7c200': 'V4fbsxOjFryO6nC9AAAB'}
+});
+
+app.use(req, res, next => {
+    req.io = io;
+    req.connectedUsers = connectedUsers;
+    
+    next();
 });
 
 //GET, POST, PUT, DELETE
