@@ -28,7 +28,7 @@ io.on('connection', socket => {
     // { '5d9a4a5ff56da82c3ed7c200': 'V4fbsxOjFryO6nC9AAAB'}
 });
 
-app.use(req, res, next => {
+app.use((req, res, next) => {
     req.io = io;
     req.connectedUsers = connectedUsers;
     
